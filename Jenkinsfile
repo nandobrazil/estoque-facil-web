@@ -48,7 +48,7 @@ node {
         stage('Deploy docker') {
             echo "Docker Image Tag Name: ${dockerImageTag}"
             sh "docker stop ${appName} || true && docker rm ${appName} || true"
-            sh "docker run --name ${appName} -d -p 8092:80 ${appName}:${dockerImageTag}"
+            sh "docker run --name ${appName} -d -p 8201:80 ${appName}:${dockerImageTag}"
 
             // Limpar volumes e outros elementos não utilizados do Docker
             sh "docker system prune --force"
