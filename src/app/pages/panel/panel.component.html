@@ -1,0 +1,17 @@
+<div class="app-panel" [class.shrink]="shrink" [class.menu-opened]="menuOpened">
+  <nav>
+    <app-nav (shrink)="shrink = $event"></app-nav>
+  </nav>
+  <main>
+    <app-breadcrumb class="content-breadcrumb"></app-breadcrumb>
+    <div class="layout-content">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer>
+    <p-button [icon]="'pi pi-' + (menuOpened ? 'times' : 'bars')" (click)="menuOpened = !menuOpened" [rounded]="true"
+              label="Menu" [raised]="true"></p-button>
+  </footer>
+</div>
+<p-toast></p-toast>

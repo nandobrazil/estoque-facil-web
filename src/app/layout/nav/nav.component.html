@@ -1,0 +1,60 @@
+<div class="app-nav">
+  <div class="sidebar-top">
+      <span class="shrink-btn" (click)="toggleShrink()" [class.hovered]="hovered">
+        <i class='bx bx-chevron-left'></i>
+      </span>
+    <div class="logo-container">
+      <img src="assets/images/logo.svg" class="logo" alt="" draggable="false">
+    </div>
+  </div>
+  <div class="search">
+    <i class='bx bx-search'></i>
+    <input type="text" class="hide" placeholder="Quick Search ...">
+  </div>
+
+  <div class="sidebar-links">
+    <ng-container *ngFor="let menu of menuItems; let index = index">
+      <h4 class="nav-section hide" *ngIf="menu.section">{{menu.section}}</h4>
+      <ul>
+        <div class="active-tab" *ngIf="index === 0" [ngStyle]="{top: topPosition + 'px'}"></div>
+        <li class="tooltip-element" *ngFor="let item of menu.items; let i = index"
+            (mouseover)="showToolTip(i, menu.items.length)">
+          <a [routerLink]="item.routerLink" [class.active]="activeIndex === item.counter">
+            <div class="icon">
+              <i class='bx {{item.icon}}'></i>
+              <i class='bx {{item.iconFill}}'></i>
+            </div>
+            <span class="link hide">{{ item.label }}</span>
+          </a>
+        </li>
+        <div class="tooltip" [ngStyle]="{top: topTooltip}">
+          <span *ngFor="let item of menu.items; let i = index" [class.show]="tooltipIndex === i">
+            {{ item.label }}
+          </span>
+        </div>
+      </ul>
+    </ng-container>
+  </div>
+
+  <div class="sidebar-footer">
+    <a class="account tooltip-element" (mouseover)="showToolTip(0, 2)">
+      <i class='bx bx-user'></i>
+    </a>
+    <div class="admin-user tooltip-element" (mouseover)="showToolTip(1, 2)">
+      <div class="admin-profile hide">
+        <img src="assets/images/face-1.png" alt="">
+        <div class="admin-info">
+          <h3>{{ user?.name }}</h3>
+          <h5>{{ user?.username }}</h5>
+        </div>
+      </div>
+      <a class="log-out" (click)="logOut()">
+        <i class='bx bx-log-out'></i>
+      </a>
+    </div>
+    <div class="tooltip" [ngStyle]="{top: topTooltip}">
+      <span [class.show]="tooltipIndex === 0">John Doe</span>
+      <span [class.show]="tooltipIndex === 1">Logout</span>
+    </div>
+  </div>
+</div>

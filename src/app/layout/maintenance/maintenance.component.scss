@@ -1,0 +1,46 @@
+.app-maintenance {
+  font-weight: 100;
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  h1 {
+    font-size: 50px;
+    font-weight: 100;
+    color: #3d5af1;
+    text-align: center;
+  }
+
+  article {
+    display: block;
+    width: 900px;
+    padding: 50px;
+    margin: 0 auto;
+    p {
+      text-align: justify-all;
+      line-height: 1.25;
+    }
+  }
+
+  a {
+    color: #000;
+    font-weight: bold;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  svg {
+    width: 75px;
+    margin-top: 1em;
+  }
+}
