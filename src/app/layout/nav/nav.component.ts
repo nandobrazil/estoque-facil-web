@@ -46,37 +46,44 @@ export class NavComponent implements OnInit {
           counter: 0
         },
         {
-          label: 'Modelo de Anúncio',
-          icon: 'bx-layout',
-          iconFill: 'bxs-layout',
-          routerLink: 'template',
+          label: 'Produtos',
+          icon: 'bx-help-circle',
+          iconFill: 'bxs-help-circle',
+          routerLink: 'product',
           counter: 1
         },
-        {
-          label: 'Acervo de Imagens',
-          icon: 'bx-folder-open',
-          iconFill: 'bxs-folder-open',
-          routerLink: 'images',
-          counter: 2
-        }
       ]
     },
     {
-      section: 'OLX',
+      section: 'Administração',
       items: [
         {
-          label: 'Anúncios',
-          icon: 'bx-notepad',
-          iconFill: 'bxs-notepad',
-          routerLink: 'ad',
+          label: 'Categoria',
+          icon: 'bx-layout',
+          iconFill: 'bxs-layout',
+          routerLink: 'category',
+          counter: 2
+        },
+        {
+          label: 'Marca',
+          icon: 'bx-folder-open',
+          iconFill: 'bxs-folder-open',
+          routerLink: 'brand',
           counter: 3
         },
         {
-          label: 'Plano',
-          icon: 'bx-help-circle',
-          iconFill: 'bxs-help-circle',
-          routerLink: 'plan',
+          label: 'Modelo',
+          icon: 'bx-notepad',
+          iconFill: 'bxs-notepad',
+          routerLink: 'model',
           counter: 4
+        },
+        {
+          label: 'Usuários',
+          icon: 'bx-notepad',
+          iconFill: 'bxs-notepad',
+          routerLink: 'user',
+          counter: 5
         },
       ]
     },
@@ -88,13 +95,6 @@ export class NavComponent implements OnInit {
           icon: 'bx-cog',
           iconFill: 'bxs-cog',
           routerLink: 'settings',
-          counter: 5
-        },
-        {
-          label: 'FAQ',
-          icon: 'bx-help-circle',
-          iconFill: 'bxs-help-circle',
-          routerLink: 'faq',
           counter: 6
         }
       ]
@@ -134,8 +134,8 @@ export class NavComponent implements OnInit {
     this.topPosition = this.activeIndex * 58 + 2.5;
     const shortcuts = document.querySelector(".sidebar-links h4");
     if (!shortcuts) return;
-    if (this.activeIndex >= 3) this.topPosition += shortcuts!.clientHeight;
-    if (this.activeIndex >= 5) this.topPosition += shortcuts!.clientHeight;
+    if (this.activeIndex >= 2) this.topPosition += shortcuts!.clientHeight;
+    if (this.activeIndex >= 6) this.topPosition += shortcuts!.clientHeight;
   }
 
   changeLink(index: number) {

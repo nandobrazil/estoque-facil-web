@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingModule)
+    redirectTo: 'auth',
+    pathMatch: 'full'
   },
   { path: 'panel', loadChildren: () => import('./pages/panel/panel.module').then(m => m.PanelModule) },
   { path: 'auth', data: { breadcrumb: 'Auth' }, loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule) },
