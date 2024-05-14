@@ -10,6 +10,7 @@ import {ButtonModule} from "primeng/button";
 import {DropdownModule} from "primeng/dropdown";
 import {RippleModule} from "primeng/ripple";
 import {PasswordModule} from "primeng/password";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {PasswordModule} from "primeng/password";
     ButtonModule,
     DropdownModule,
     RippleModule,
-    PasswordModule
+    PasswordModule,
+    ReactiveFormsModule
   ]
 })
 export class UserModule { }

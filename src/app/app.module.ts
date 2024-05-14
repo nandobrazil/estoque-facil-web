@@ -13,6 +13,7 @@ import localePt from '@angular/common/locales/pt';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {PanelModule} from "./pages/panel/panel.module";
 import {LoadingComponent} from "./layout/loading/loading.component";
+import {ToastModule} from "primeng/toast";
 
 registerLocaleData(localePt);
 
@@ -28,7 +29,8 @@ registerLocaleData(localePt);
     HttpClientModule,
     AppRoutingModule,
     ConfirmDialogModule,
-    PanelModule
+    PanelModule,
+    ToastModule
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

@@ -18,6 +18,9 @@ export class LoginComponent {
     private router: Router
   ) {
     this.buildForm();
+    if (this.authService.isLogged()) {
+      this.router.navigate(['/panel/dashboard']).then();
+    }
   }
 
   buildForm() {

@@ -8,7 +8,7 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import {of} from 'rxjs';
+import {from, Observable, of, switchMap} from 'rxjs';
 import {catchError, finalize, map} from 'rxjs/operators';
 import {MessageService} from 'primeng/api';
 
@@ -22,7 +22,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   isRefreshingToken = false;
   environment = environment;
-  private requestCount = 0;
 
   constructor(
     private messageService: MessageService,
@@ -35,16 +34,14 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ) {
-    this.requestCount++;
     const accessToken = this.authService.getAccessToken();
     const headers = new HttpHeaders(accessToken ? {Authorization: `Bearer ${accessToken}`} : {});
     if (req.headers.get('Skip-Interceptor') === 'true') {
       headers.delete('Skip-Interceptor');
-      this.requestCount--;
-      return next.handle(req);
+      this.loadingService.next(false);
     }
     req = req.clone({headers});
-    if (req.clone().method === 'POST' || req.clone().method === 'PUT') this.loadingService.next(true);
+    this.loadingService.next(true);
     return next.handle(req).pipe(
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse && req.url.startsWith(this.environment.apiUrl)) {
@@ -65,26 +62,28 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         this.loadingService.next(false);
         if ([422, 404, 400].includes(error.status)) {
           const message = error?.error?.message || error?.error?.erro
-            || error?.message;
+            || error?.message || 'Ocorreu um erro inesperado, tente novamente mais tarde';
           if (error?.error instanceof Array) {
             this.messageService.add({
-              summary: 'Atenção',
+              summary: 'Erro',
               severity: 'warn',
-              detail: message
+              detail: error.error.join('. ')
             });
           } else {
             this.messageService.add({
-              summary: 'Atenção',
+              summary: 'Ocorreu um erro',
               severity: 'warn',
               detail: message
             });
           }
-        } else if ([401, 403].includes(error.status)) {
+        } else if (error.status === 403) {
           this.messageService.add({
-            summary: 'Erro',
+            summary: 'Não autorizado',
             severity: 'warn',
             detail: 'Você não tem permissão para acessar este recurso'
           });
+        } else if (error.status === 401) {
+          return this.handleUnauthorized(req, next);
         } else if (error.status === 500 && error.message.startsWith('JWT expired ')) {
           this.messageService.add({
             summary: 'Erro',
@@ -92,6 +91,12 @@ export class HttpRequestInterceptor implements HttpInterceptor {
             detail: 'Sua sessão expirou, faça login novamente'
           });
           this.route.navigate(['/auth']).then(() => window.location.reload());
+        } else {
+          this.messageService.add({
+            summary: 'Erro',
+            severity: 'warn',
+            detail: error.error.message ?? 'Não foi possível encontrar o recurso solicitado'
+          });
         }
         return of(new HttpResponse({
           body: {
@@ -101,10 +106,60 @@ export class HttpRequestInterceptor implements HttpInterceptor {
           }
         }));
       }),
-      finalize(() => {
-        this.requestCount--;
-        if (this.requestCount <= 0) this.loadingService.next(false);
-      }),
+      finalize(() => this.loadingService.next(false)),
     );
+  }
+
+  handleUnauthorized(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
+    if (!this.isRefreshingToken) {
+      this.isRefreshingToken = true;
+
+      // get a new token via userService.refreshToken
+      return from(this.authService.refresh())
+        .pipe(switchMap((newToken: boolean) => {
+            // did we get a new token retry previous request
+            if (newToken) {
+              const accessToken = this.authService.getAccessToken();
+              const headers = new HttpHeaders(accessToken ? { Authorization: `Bearer ${accessToken}` } : { }) ;
+              req = req.clone({ headers });
+              return next.handle(req);
+            }
+
+            // If we don't get a new token, we are in trouble so logout.
+            this.route.navigate(['/auth']);
+            this.messageService.add({
+              summary: 'Erro',
+              severity: 'warn',
+              detail: 'Ocorreu um erro inesperado, tente novamente mais tarde'
+            });
+            return of(new HttpResponse({
+              body: {
+                success: false,
+                data: null,
+                message: 'Ocorreu um erro inesperado, tente novamente mais tarde',
+              }
+            }));
+          }),
+          catchError(error => {
+            this.messageService.add({
+              summary: 'Erro',
+              severity: 'warn',
+              detail: 'Ocorreu um erro inesperado, tente novamente mais tarde'
+            });
+            return of(new HttpResponse({
+              body: {
+                success: false,
+                data: error?.error,
+                message: error?.error?.error || error?.message,
+              }
+            }));
+          }),
+          finalize(() => {
+            this.isRefreshingToken = false;
+          })
+        );
+    } else {
+      return next.handle(req);
+    }
   }
 }

@@ -11,7 +11,6 @@ export class AuthGuard {
 ) { }
 
   canActivate(): boolean {
-    return true;
     const authenticated = this.authService.isLogged();
     if (!authenticated) {
       this.router.navigate(['/auth/login']).then(() => this.authService.signOut());

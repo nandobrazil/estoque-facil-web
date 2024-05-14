@@ -1,44 +1,88 @@
 <div class="app-user">
   <div class="card">
-    <span class="text-900 text-xl font-bold mb-4 block">Criar Usuário</span>
-    <div class="grid">
-      <div class="col-12 lg:col-2">
-        <div class="text-900 font-medium text-xl mb-3">Perfil</div>
-        <p class="m-0 p-0 text-600 line-height-3 mr-3">Defina os dados do usuário</p>
-      </div>
-      <div class="col-12 lg:col-10">
-        <div class="grid formgrid p-fluid">
-          <div class="field mb-4 col-12">
-            <label for="nickname" class="font-medium text-900">Nome</label>
-            <input id="nickname" type="text" pInputText>
-          </div>
-          <div class="field mb-4 col-12">
-            <label for="username" class="font-medium text-900">Nome de usuário</label>
-            <input id="username" type="text" pInputText>
-          </div>
-          <div class="field mb-4 col-12 md:col-6">
-            <label for="password" class="font-medium text-900">Senha</label>
-            <p-password id="password" inputId="password" [feedback]="false" [toggleMask]="true"></p-password>
-          </div>
-          <div class="field mb-4 col-12 md:col-6">
-            <label for="confirmpassword" class="font-medium text-900">Confirmar Senha</label>
-            <p-password id="confirmpassword" inputId="confirmpassword" [feedback]="false" [toggleMask]="true"></p-password>
-          </div>
-          <div class="field mb-4 col-12 md:col-6">
-            <label for="email" class="font-medium text-900">Email</label>
-            <input id="email" type="text" pInputText>
-          </div>
-          <div class="field mb-4 col-12 md:col-6">
-            <label for="role" class="font-medium text-900">Perfil</label>
-            <p-dropdown id="role" inputId="role" [options]="roleOptions" placeholder="Selecione o perfil">
-            </p-dropdown>
-          </div>
-          <div class="col-12">
-            <button pButton pRipple label="Criar Usuário" class="w-auto mt-3"></button>
+    <span class="text-900 text-xl font-bold mb-4 block">{{ update ? 'Atualizar Usuário' : 'Criar Usuário' }}</span>
+    <form [formGroup]="form">
+      <div class="grid">
+        <div class="col-12 lg:col-2">
+          <div class="text-900 font-medium text-xl mb-3">Perfil</div>
+          <p
+            class="m-0 p-0 text-600 line-height-3 mr-3">{{ update ? 'Atualize os dados do usuário' : 'Defina os dados do usuário' }}</p>
+        </div>
+        <div class="col-12 lg:col-10">
+          <div class="grid formgrid p-fluid">
+            <div class="field mb-4 col-12">
+              <label for="nickname" class="font-medium text-900">Nome</label>
+              <input id="nickname" type="text" pInputText formControlName="name">
+            </div>
+            <div class="field mb-4 col-12">
+              <label for="username" class="font-medium text-900">Nome de usuário</label>
+              <input id="username" type="text" pInputText formControlName="username">
+            </div>
+            <div class="field mb-4 col-12 md:col-6">
+              <label for="password" class="font-medium text-900">Senha</label>
+              <p-password id="password" inputId="password" formControlName="password" [feedback]="false"
+                          [toggleMask]="true"></p-password>
+            </div>
+            <div class="field mb-4 col-12 md:col-6">
+              <ng-container *ngIf="!update; else updatepassword">
+                <label for="confirmpassword2" class="font-medium text-900">Confirmar Senha</label>
+                <p-password id="confirmpassword2" inputId="confirmpassword2"
+                            formControlName="confirmPassword"
+                            [feedback]="false" [toggleMask]="true"></p-password>
+              </ng-container>
+              <ng-template #updatepassword>
+                <div class="grid m-0 p-0">
+                  <div class="col m-0 p-0">
+                    <label for="confirmpassword" class="font-medium text-900">Confirmar Senha</label>
+                    <p-password id="confirmpassword" styleClass="mt-2" inputId="confirmpassword"
+                                formControlName="confirmPassword"
+                                [feedback]="false" [toggleMask]="true"></p-password>
+                  </div>
+                  <div class="col-fixed m-0 p-0">
+                    <button pButton pRipple label="Atualizar senha" icon="pi pi-lock" class="w-auto h-3rem p-4 ml-2"
+                            (click)="updatePassword()"
+                            style="margin-top: 1.8rem;"></button>
+
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+            <div class="field mb-4 col-12 md:col-6">
+              <label for="email" class="font-medium text-900">Email</label>
+              <input id="email" type="email" pInputText formControlName="email">
+            </div>
+            <div class="field mb-4 col-12 md:col-6">
+              <ng-container *ngIf="!update; else updaterole">
+                <label for="role" class="font-medium text-900">Perfil</label>
+                <p-dropdown id="role" inputId="role" [options]="roleOptions" placeholder="Selecione o perfil"
+                            formControlName="role">
+                </p-dropdown>
+              </ng-container>
+              <ng-template #updaterole>
+                <div class="grid p-0 m-0">
+                  <div class="col m-0 p-0">
+                    <label for="role2" class="font-medium text-900">Perfil</label>
+                    <p-dropdown id="role2" inputId="role2" styleClass="mt-2" [options]="roleOptions"
+                                placeholder="Selecione o perfil"
+                                formControlName="role">
+                    </p-dropdown>
+                  </div>
+                  <div class="col-fixed m-0 p-0">
+                    <button pButton pRipple label="Atualizar perfil" icon="pi pi-user" class="w-auto h-3rem p-4 ml-2"
+                            (click)="updateRole()"
+                            style="margin-top: 1.8rem;"></button>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+            <div class="col-12 flex justify-content-end gap-2">
+              <button *ngIf="!update" icon="pi pi-save" pButton pRipple label="Criar Usuário"
+                      (click)="Save()" class="w-auto mt-3"></button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 
 </div>

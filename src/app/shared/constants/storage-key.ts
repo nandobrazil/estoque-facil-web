@@ -3,4 +3,5 @@ export const StorageKeys = {
   REFRESH_TOKEN: '@EstoqueFacil/REFRESH_TOKEN',
   FULL_NAME: '@EstoqueFacil/FULL_NAME',
   USERNAME: '@EstoqueFacil/USERNAME',
+  EMAIL: '@EstoqueFacil/EMAIL',
 };

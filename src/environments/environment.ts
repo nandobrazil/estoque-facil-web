@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/api',
+  apiUrl: 'https://estoque-api.anunciabem.com.br',
+  // apiUrl: 'http://78.142.242.157:8200'
 };
 

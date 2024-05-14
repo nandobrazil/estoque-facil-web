@@ -149,7 +149,8 @@ export class NavComponent implements OnInit {
   }
 
   async logOut() {
-    this.router.navigate(['/auth/login']).then(() => this.authService.signOut());
+    this.authService.signOut();
+    await this.router.navigate(['/auth/login']);
   }
 
 }
