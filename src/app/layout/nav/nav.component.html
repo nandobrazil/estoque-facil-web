@@ -9,7 +9,7 @@
   </div>
   <div class="search">
     <i class='bx bx-search'></i>
-    <input type="text" class="hide" placeholder="Quick Search ...">
+    <input type="text" class="hide" placeholder="Pesquisa rápida">
   </div>
 
   <div class="sidebar-links">
@@ -42,10 +42,10 @@
     </a>
     <div class="admin-user tooltip-element" (mouseover)="showToolTip(1, 2)">
       <div class="admin-profile hide">
-        <img src="assets/images/face-1.png" alt="">
+        <img src="assets/images/avatar.png" alt="">
         <div class="admin-info">
-          <h3>{{ user?.name }}</h3>
-          <h5>{{ user?.username }}</h5>
+          <h3>{{ user?.fullname }}</h3>
+          <h5>{{ user?.role }}</h5>
         </div>
       </div>
       <a class="log-out" (click)="logOut()">

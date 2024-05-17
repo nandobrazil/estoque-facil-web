@@ -1,4 +1,5 @@
 export interface IQueryOptions {
   size?: number;
-  pageNumber?: number;
+  page?: number;
+  search?: any;
 }

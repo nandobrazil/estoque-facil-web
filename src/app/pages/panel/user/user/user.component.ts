@@ -41,31 +41,30 @@ export class UserComponent implements OnInit {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: [''],
-      confirmPassword: [''],
+      confirmationPassword: [''],
       role: ['SELLER', Validators.required],
     });
     this.form.controls['password']?.valueChanges.subscribe((value) => {
-      const confirm = this.form.controls['confirmPassword']?.value;
+      const confirm = this.form.controls['confirmationPassword']?.value;
       if (confirm) {
         const isEqual = value === confirm;
-        this.form.controls['confirmPassword']?.setErrors(isEqual ? null : {invalid: true});
+        this.form.controls['confirmationPassword']?.setErrors(isEqual ? null : {invalid: true});
       }
     });
-    this.form.controls['confirmPassword']?.valueChanges.subscribe((value) => {
-      console.log(value)
+    this.form.controls['confirmationPassword']?.valueChanges.subscribe((value) => {
       const isEqual = value === this.form.controls['password']?.value;
-      this.form.controls['confirmPassword']?.setErrors(isEqual ? null : {invalid: true});
+      this.form.controls['confirmationPassword']?.setErrors(isEqual ? null : {invalid: true});
     });
   }
 
   async GetUser(id: string) {
-    const { success, data } = await this.userService.Get(id);
+    const { success, data } = await this.userService.GetById(+id);
     if (success) {
       this.update = true;
 
       this.form.patchValue(data!);
       this.form.controls['password']?.setValidators(Validators.required);
-      this.form.controls['confirmPassword']?.setValidators(Validators.required);
+      this.form.controls['confirmationPassword']?.setValidators(Validators.required);
       this.form.controls['name'].disable();
       this.form.controls['username'].disable();
       this.form.controls['email'].disable();
@@ -73,9 +72,9 @@ export class UserComponent implements OnInit {
   }
 
   async updatePassword() {
-    const { id, password, confirmPassword } = this.form.value;
+    const { id, password, confirmationPassword } = this.form.value;
     this.form.markAllAsTouched();
-    if (password !== confirmPassword) {
+    if (password !== confirmationPassword) {
       this.messageService.add({severity:'warn', summary:'Atenção', detail:'A senha e a confirmação de senha não são iguais!'});
       return;
     }
@@ -83,7 +82,7 @@ export class UserComponent implements OnInit {
     if (success) {
       this.messageService.add({severity:'success', summary:'Sucesso', detail:'Senha alterada com sucesso!'});
       this.form.controls['password'].reset();
-      this.form.controls['confirmPassword'].reset();
+      this.form.controls['confirmationPassword'].reset();
     }
   }
 
@@ -100,7 +99,7 @@ export class UserComponent implements OnInit {
     this.form.invalid && this.messageService.add({severity:'warn', summary:'Atenção', detail:'Preencha todos os campos!'});
     if (this.form.invalid) return
     const userRequest: IUserRequest = this.form.value;
-    const { success } = await this.userService.Post(userRequest);
+    const { success } = await this.userService.Create(userRequest);
     if (success) {
       this.messageService.add({severity:'success', summary:'Sucesso', detail:'Usuário criado com sucesso!'});
       this.router.navigate(['panel/user']).then();

@@ -61,13 +61,12 @@ export class HttpRequestInterceptor implements HttpInterceptor {
         this.messageService.clear();
         this.loadingService.next(false);
         if ([422, 404, 400].includes(error.status)) {
-          const message = error?.error?.message || error?.error?.erro
-            || error?.message || 'Ocorreu um erro inesperado, tente novamente mais tarde';
-          if (error?.error instanceof Array) {
+          const message = error?.error?.data[0]?.message || 'Ocorreu um erro inesperado, tente novamente mais tarde';
+          if (error?.error.data instanceof Array) {
             this.messageService.add({
               summary: 'Erro',
               severity: 'warn',
-              detail: error.error.join('. ')
+              detail: error.error.data.map((err: any) => err.message).join('. ')
             });
           } else {
             this.messageService.add({

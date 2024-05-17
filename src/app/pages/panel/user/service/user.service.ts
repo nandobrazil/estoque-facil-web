@@ -11,24 +11,12 @@ import {IUserRequest} from "../interface/IUserRequest";
 @Injectable({
   providedIn: 'root'
 })
-export class UserService extends BaseService {
+export class UserService extends BaseService<IUserListResponse, IUserResponse, IUserRequest> {
 
   constructor(
     @Inject(Injector) injector: Injector
   ) {
     super('users', injector);
-  }
-
-  async Post(request: IUserRequest): Promise<IHttpResult<void>> {
-    return lastValueFrom(this.http.post<IHttpResult<void>>(this.urlBase, request));
-  }
-
-  async getAll(options?: IQueryOptions): Promise<IHttpResult<IUserListResponse[]>> {
-    return lastValueFrom(this.http.get<IHttpResult<IUserListResponse[]>>(`${this.urlBase}${PrepareHttpParams(options)}`));
-  }
-
-  async Get(id: string): Promise<IHttpResult<IUserResponse>> {
-    return lastValueFrom(this.http.get<IHttpResult<IUserResponse>>(`${this.urlBase}/${id}`));
   }
 
   async ChangePassword(id: string, password: string): Promise<IHttpResult<void>> {
@@ -43,7 +31,4 @@ export class UserService extends BaseService {
     }));
   }
 
-  async Delete(id: number): Promise<IHttpResult<void>> {
-    return lastValueFrom(this.http.delete<IHttpResult<void>>(`${this.urlBase}/${id}`));
-  }
 }

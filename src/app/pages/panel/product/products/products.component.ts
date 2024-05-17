@@ -16,7 +16,7 @@ export class ProductsComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   async ngOnInit() {
-    const { success, data } = await this.productService.getAll();
+    const { success, data } = await this.productService.GetAll();
     if (success) {
       this.products = data!;
     }

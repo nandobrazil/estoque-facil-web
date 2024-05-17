@@ -3,7 +3,7 @@
   --main-color-dark: #3651d4;
   --main-color-light: #5872f5;
   --text-color: #cfcde7;
-  --width-nav: 16rem;
+  --width-nav: 18rem;
   font-family: "Poppins", sans-serif;
   overflow-x: hidden;
   background-color: #f8f9fb;
@@ -273,6 +273,9 @@
   }
 
   .admin-user img {
+    background-color: #fff;
+    border: 1px solid #E3E3E3;
+    padding: .25rem;
     width: 2.9rem;
     border-radius: 50%;
     margin: 0 0.4rem;
@@ -285,6 +288,7 @@
   .admin-info h3 {
     font-weight: 500;
     font-size: 1rem;
+    color: var(--text-color);
     line-height: 1;
   }
 

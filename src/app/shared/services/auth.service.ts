@@ -7,6 +7,7 @@ import {IHttpResult} from "../interfaces/core/IHttpResult";
 import {jwtDecode} from "jwt-decode";
 import {IAuthData, IAuthResponse} from "../interfaces/core/IAuthResponse";
 import {MessageService} from "primeng/api";
+import {IBasicUserInfo} from "../interfaces/IBasicUserInfo";
 
 interface TokenPayload {
   sub: number;
@@ -101,6 +102,20 @@ export class AuthService {
 
   getRefreshToken() {
     return localStorage.getItem(StorageKeys.REFRESH_TOKEN);
+  }
+
+  isAdmin(): boolean {
+    return this.getTokenPayload()?.authorities?.some((role: string) => role === 'ROLE_ADMIN');
+  }
+
+  getBasicUserInfo(): IBasicUserInfo {
+    return {
+      fullname: localStorage.getItem(StorageKeys.FULL_NAME) || '',
+      email: localStorage.getItem(StorageKeys.EMAIL) || '',
+      role: this.isAdmin() ? 'Administrador' : 'Vendedor',
+      token: localStorage.getItem(StorageKeys.ACCESS_TOKEN) || '',
+      refreshToken: localStorage.getItem(StorageKeys.REFRESH_TOKEN) || ''
+    }
   }
 
 }

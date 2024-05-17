@@ -1,1 +1,64 @@
-<p>categories works!</p>
+<div class="app-categories">
+  <div class="card">
+    <p-table [value]="categories" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+             responsiveLayout="scroll"
+             currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} categorias"
+             [rowsPerPageOptions]="[5,10,25,50]"
+             [totalRecords]="pagination.totalRecords"
+             (onLazyLoad)="GetCategories($event)"
+             [lazy]="true"
+             [globalFilterFields]="['name','username', 'role']">
+      <ng-template pTemplate="caption">
+        <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                  <!--                   (input)="onGlobalFilter(dt, $event)"-->
+                    <input pInputText type="text" placeholder="Pesquisar categoria"
+                           class="w-full"/>
+                </span>
+          <button routerLink="/panel/category/new" pButton
+                  class="p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1" icon="pi pi-plus"
+                  label="Nova Categoria"></button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name" class="white-space-nowrap">Nome
+            <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="description" class="white-space-nowrap">Descrição
+            <p-sortIcon field="description"></p-sortIcon>
+          </th>
+
+          <th pSortableColumn="createdAt" class="white-space-nowrap">Criado por
+            <p-sortIcon field="createdAt"></p-sortIcon>
+          </th>
+          <th pSortableColumn="createdAt" class="white-space-nowrap">Criado em
+            <p-sortIcon field="createdAt"></p-sortIcon>
+          </th>
+          <th pSortableColumn="modifiedBy" class="white-space-nowrap">Atualizado por
+            <p-sortIcon field="modifiedBy"></p-sortIcon>
+          </th>
+          <th style="width:10rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr>
+          <td>{{ data.name }}</td>
+          <td>{{ data.description }}</td>
+          <td>{{ data.createdBy }}</td>
+          <td>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ data.modifiedBy }}</td>
+          <td>
+            <div class="flex justify-content-center gap-1">
+              <button pButton icon="pi pi-pencil" [routerLink]="['/panel/category/', data.id]"
+                      class="p-button-rounded" size="small"></button>
+              <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" size="small"
+                      (click)="delete(data.id)"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

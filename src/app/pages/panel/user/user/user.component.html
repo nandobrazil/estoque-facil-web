@@ -27,7 +27,7 @@
               <ng-container *ngIf="!update; else updatepassword">
                 <label for="confirmpassword2" class="font-medium text-900">Confirmar Senha</label>
                 <p-password id="confirmpassword2" inputId="confirmpassword2"
-                            formControlName="confirmPassword"
+                            formControlName="confirmationPassword"
                             [feedback]="false" [toggleMask]="true"></p-password>
               </ng-container>
               <ng-template #updatepassword>
@@ -35,7 +35,7 @@
                   <div class="col m-0 p-0">
                     <label for="confirmpassword" class="font-medium text-900">Confirmar Senha</label>
                     <p-password id="confirmpassword" styleClass="mt-2" inputId="confirmpassword"
-                                formControlName="confirmPassword"
+                                formControlName="confirmationPassword"
                                 [feedback]="false" [toggleMask]="true"></p-password>
                   </div>
                   <div class="col-fixed m-0 p-0">

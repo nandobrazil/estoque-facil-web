@@ -8,9 +8,11 @@ import {
   Router
 } from "@angular/router";
 import {AuthService} from "../../shared/services/auth.service";
+import {IBasicUserInfo} from "../../shared/interfaces/IBasicUserInfo";
 
 interface MenuItems {
   section?: string;
+  role?: 'ADMIN' | 'SELLER';
   items: {
     label: string;
     icon: string;
@@ -33,80 +35,17 @@ export class NavComponent implements OnInit {
   activeIndex = 0;
   tooltipIndex = 0;
   topTooltip = '';
-  user: any = {};
+  user: IBasicUserInfo | undefined;
 
-  menuItems: MenuItems[] = [
-    {
-      items: [
-        {
-          label: 'Dados Analíticos',
-          icon: 'bx-bar-chart-square',
-          iconFill: 'bxs-bar-chart-square',
-          routerLink: 'dashboard',
-          counter: 0
-        },
-        {
-          label: 'Produtos',
-          icon: 'bx-help-circle',
-          iconFill: 'bxs-help-circle',
-          routerLink: 'product',
-          counter: 1
-        },
-      ]
-    },
-    {
-      section: 'Administração',
-      items: [
-        {
-          label: 'Categoria',
-          icon: 'bx-layout',
-          iconFill: 'bxs-layout',
-          routerLink: 'category',
-          counter: 2
-        },
-        {
-          label: 'Marca',
-          icon: 'bx-folder-open',
-          iconFill: 'bxs-folder-open',
-          routerLink: 'brand',
-          counter: 3
-        },
-        {
-          label: 'Modelo',
-          icon: 'bx-notepad',
-          iconFill: 'bxs-notepad',
-          routerLink: 'model',
-          counter: 4
-        },
-        {
-          label: 'Usuários',
-          icon: 'bx-notepad',
-          iconFill: 'bxs-notepad',
-          routerLink: 'user',
-          counter: 5
-        },
-      ]
-    },
-    {
-      section: 'Configurações',
-      items: [
-        {
-          label: 'Conta',
-          icon: 'bx-cog',
-          iconFill: 'bxs-cog',
-          routerLink: 'settings',
-          counter: 6
-        }
-      ]
-    },
-  ];
+  menuItems: MenuItems[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private router: Router
   ) {
-    this.user = this.authService.getTokenPayload();
+    this.user = this.authService.getBasicUserInfo();
+    this.buildMenu();
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart || event instanceof NavigationEnd) {
         this.activeIndex = this.menuItems
@@ -120,6 +59,81 @@ export class NavComponent implements OnInit {
 
   ngOnInit() {
     setTimeout(() => this.moveActiveTab());
+  }
+
+  buildMenu() {
+    const isAdmin = this.authService.isAdmin();
+    const commonItems = [
+      {
+        items: [
+          {
+            label: 'Dados Analíticos',
+            icon: 'bx-bar-chart-square',
+            iconFill: 'bxs-bar-chart-square',
+            routerLink: 'dashboard',
+            counter: 0
+          },
+          {
+            label: 'Produtos',
+            icon: 'bx-notepad',
+            iconFill: 'bxs-notepad',
+            routerLink: 'product',
+            counter: 1
+          },
+        ]
+      }
+    ]
+    const adminItems = [
+      {
+        section: 'Administração',
+        role: 'ADMIN',
+        items: [
+          {
+            label: 'Categoria',
+            icon: 'bx-notepad',
+            iconFill: 'bxs-notepad',
+            routerLink: 'category',
+            counter: 2
+          },
+          {
+            label: 'Marca',
+            icon: 'bx-notepad',
+            iconFill: 'bxs-notepad',
+            routerLink: 'brand',
+            counter: 3
+          },
+          {
+            label: 'Modelo',
+            icon: 'bx-notepad',
+            iconFill: 'bxs-notepad',
+            routerLink: 'model',
+            counter: 4
+          },
+          {
+            label: 'Usuários',
+            icon: 'bx-notepad',
+            iconFill: 'bxs-notepad',
+            routerLink: 'user',
+            counter: 5
+          },
+        ]
+      }
+    ];
+    const settingsItems = [
+      {
+        section: 'Configurações',
+        items: [
+          {
+            label: 'Conta',
+            icon: 'bx-cog',
+            iconFill: 'bxs-cog',
+            routerLink: 'settings',
+            counter: 6
+          }
+        ]
+      },
+    ];
+    this.menuItems = isAdmin ? [...commonItems, ...adminItems, ...settingsItems] : [...commonItems, ...settingsItems];
   }
 
   toggleShrink() {

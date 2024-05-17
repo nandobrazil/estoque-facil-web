@@ -7,7 +7,7 @@ import {IProductListResponse} from "../interface/IProductListResponse";
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService extends BaseService {
+export class ProductService extends BaseService<any, any, any> {
 
   constructor(
     @Inject(Injector) injector: Injector
@@ -15,8 +15,4 @@ export class ProductService extends BaseService {
     super('products', injector);
   }
 
-
-  getAll(): Promise<IHttpResult<IProductListResponse[]>> {
-    return lastValueFrom(this.http.get<IHttpResult<IProductListResponse[]>>(`${this.urlBase}`));
-  }
 }

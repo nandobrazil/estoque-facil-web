@@ -3,6 +3,9 @@
     <p-table #dt [value]="users" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
              currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuários"
              [rowsPerPageOptions]="[10,25,50]"
+             [lazy]="true"
+             (onLazyLoad)="GetUsers($event)"
+             [totalRecords]="pagination.totalRecords"
              [globalFilterFields]="['name','username', 'role']">
       <ng-template pTemplate="caption">
         <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
@@ -21,7 +24,7 @@
           <th pSortableColumn="name" class="white-space-nowrap" style="width:25%">Nome
             <p-sortIcon field="name"></p-sortIcon>
           </th>
-          <th pSortableColumn="username" class="white-space-nowrap" style="width:25%">Usuário
+          <th pSortableColumn="username" class="white-space-nowrap" style="width:25%">Criado por
             <p-sortIcon field="username"></p-sortIcon>
           </th>
           <th pSortableColumn="createdAt" class="white-space-nowrap" style="width:calc(25% - 5rem)">Criado em
@@ -42,7 +45,7 @@
           <td>
             <div class="flex justify-content-center gap-1">
               <button pButton icon="pi pi-pencil" class="p-button-rounded" size="small" (click)="navigateToEditUser(user.id)"></button>
-              <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" size="small" (click)="deleteUser(user.id)"></button>
+              <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" size="small" (click)="delete(user.id)"></button>
             </div>
           </td>
         </tr>
