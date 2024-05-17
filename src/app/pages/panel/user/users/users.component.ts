@@ -56,6 +56,6 @@ export class UsersComponent {
 
   async delete(id: number) {
     const success = await this.userService.Delete(id)
-    if (success) this.users = this.users.filter(u => u.id !== id);
+    if (success) await this.GetUsers(null);
   }
 }

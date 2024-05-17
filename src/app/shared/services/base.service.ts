@@ -31,8 +31,8 @@ export abstract class BaseService<IListResponse, IResponse, IRequest> {
 
   public async GetAllPaginated(options?: IQueryOptions): Promise<IResultPaginated<IListResponse[]>> {
     const optionsPrepared: IQueryOptions = {
-      size: 1,
-      page: 2,
+      size: 10,
+      page: 1,
     };
     optionsPrepared.size = options?.size || optionsPrepared.size;
     optionsPrepared.page = options?.page || optionsPrepared.page;

@@ -36,6 +36,6 @@ export class CategoriesComponent {
 
   async delete(id: number) {
     const success = await this.categoryService.Delete(id);
-    if (success) this.categories = this.categories.filter(c => c.id !== id);
+    if (success) await this.GetCategories(null);
   }
 }
