@@ -58,13 +58,14 @@ export abstract class BaseService<IListResponse, IResponse, IRequest> {
   public async Delete(id: number, message?: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.confirmationSrv.confirm({
-        message: message ?? 'Tem certeza que deseja excluir este registro?',
+        message: message ?? 'Tem certeza que deseja excluir este registro? Todos os dados relacionados serão excluídos!',
+        header: 'Confirmação',
         acceptLabel: 'Confirmar',
         rejectLabel: 'Cancelar',
         accept: async () => {
-            const { success } = await this.ConfirmDelete(id);
-            this.messageSrv.add({ severity: 'success', summary: 'Sucesso', detail: 'Registro excluído com sucesso!' });
-            resolve(success);
+          const { success } = await this.ConfirmDelete(id);
+          this.messageSrv.add({ severity: 'success', summary: 'Sucesso', detail: 'Registro excluído com sucesso!' });
+          resolve(success);
         }
       });
     });
