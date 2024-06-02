@@ -1,1 +1,79 @@
-<p>product works!</p>
+<div class="app-product">
+  <div class="card">
+    <span class="text-900 text-xl font-bold mb-4 block">{{ update ? 'Atualizar Produto' : 'Criar Produto' }}</span>
+    <form [formGroup]="form">
+      <div class="grid p-fluid">
+        <div class="col-12 md:col-8 lg:col-6">
+          <div class="p-field">
+            <label for="name">Nome</label>
+            <input id="name" type="text" pInputText formControlName="name" required>
+          </div>
+        </div>
+        <div class="col-12 md:col-6">
+          <div class="p-field">
+            <label for="model">Modelo</label>
+            <p-dropdown id="model" inputId="model"
+                        [options]="modelOptions"
+                        [group]="true"
+                        placeholder="Selecione o modelo"
+                        formControlName="modelId">
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="col-12 md:col-4">
+          <div class="p-field">
+            <label for="currency-brl">Preço de Custo</label>
+            <p-inputNumber
+              formControlName="costPrice"
+              id="currency-brl"
+              inputId="currency-brl"
+              mode="currency"
+              currency="BRL"
+              locale="pt-BR" />
+          </div>
+        </div>
+        <div class="col-12 md:col-4">
+          <div class="p-field">
+            <label for="currency-brl2">Preço de Venda</label>
+            <p-inputNumber
+              formControlName="salePrice"
+              id="currency-brl2"
+              inputId="currency-brl"
+              mode="currency"
+              currency="BRL"
+              locale="pt-BR" />
+          </div>
+        </div>
+        <div class="col-12 md:col-4">
+          <div class="p-field">
+            <label for="quantidade">Quantidade</label>
+            <p-inputNumber
+              formControlName="quantity"
+              id="quantidade"
+              mode="decimal"
+              inputId="quantidade"
+              [useGrouping]="false" />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="p-field">
+            <label for="imei">IMEI</label>
+            <input id="imei" type="text" pInputText formControlName="imei" required>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="p-field">
+            <label for="description">Descrição</label>
+            <textarea id="description" type="text" pInputTextarea style="resize: none" [rows]="5"
+                      formControlName="description" required></textarea>
+          </div>
+        </div>
+        <div class="w-full flex justify-content-end">
+          <button [icon]="'pi pi-' + (update ? 'save' : 'plus')" pButton pRipple
+                  [label]="(update ? 'Salvar ' : 'Incluir ' ) + 'Produto' "
+                  (click)="Save()" class="w-auto mt-3"></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

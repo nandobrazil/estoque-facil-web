@@ -1,13 +1,12 @@
 import {Inject, Injectable, Injector} from "@angular/core";
 import {BaseService} from "../../../../shared/services/base.service";
-import {lastValueFrom} from "rxjs";
-import {IHttpResult} from "../../../../shared/interfaces/core/IHttpResult";
 import {IProductListResponse} from "../interface/IProductListResponse";
+import {IProductRequest} from "../interface/IProductRequest";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService extends BaseService<any, any, any> {
+export class ProductService extends BaseService<IProductListResponse, IProductListResponse, IProductRequest> {
 
   constructor(
     @Inject(Injector) injector: Injector

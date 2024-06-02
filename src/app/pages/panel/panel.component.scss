@@ -414,6 +414,13 @@
       left: -100%;
       z-index: 9;
     }
+    .sidebar-footer {
+      margin-top: 1rem !important;
+    }
+
+    .active-tab {
+      display: none !important;
+    }
 
     main {
       margin-left: 0;

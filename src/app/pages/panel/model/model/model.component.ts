@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import {MessageService, SelectItem} from "primeng/api";
+import {Component} from '@angular/core';
+import {MessageService, SelectItemGroup} from "primeng/api";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {BrandService} from "../../brand/service/brand.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ModelService} from "../service/model.service";
+import {IBrandListResponse} from "../../brand/interface/IBrandListResponse";
 
 @Component({
   selector: 'app-model',
@@ -12,7 +13,7 @@ import {ModelService} from "../service/model.service";
 })
 export class ModelComponent {
 
-  brandOptions: SelectItem[] = [];
+  brandOptions: SelectItemGroup[] = [];
   update: boolean = false;
   form!: FormGroup;
 
@@ -48,22 +49,39 @@ export class ModelComponent {
       brandId: ['', Validators.required]
     });
 
-    const { success, data } = await this.brandService.GetAll();
+    const {success, data} = await this.brandService.GetAll();
     if (success) {
-      this.brandOptions = data.map(brand => ({ label: brand.name, value: brand.id }));
+      const group: SelectItemGroup[] = [];
+      data.forEach((brand: IBrandListResponse) => {
+        const findedGroup = group.find(g => g.value === brand.category.id);
+        if (findedGroup) {
+          findedGroup.items.push({label: brand.name, value: brand.id});
+          return;
+        }
+        group.push({
+          label: brand.category.name,
+          value: brand.category.id,
+          items: [{label: brand.name, value: brand.id}]
+        });
+      })
+      this.brandOptions = group;
     }
   }
 
   async Save() {
     this.form.markAllAsTouched();
-    this.form.invalid && this.messageService.add({severity:'warn', summary:'Atenção', detail:'Preencha todos os campos!'});
+    this.form.invalid && this.messageService.add({
+      severity: 'warn',
+      summary: 'Atenção',
+      detail: 'Preencha todos os campos!'
+    });
     if (this.form.invalid) return
-    const { success, data } = this.update ?
+    const {success, data} = this.update ?
       await this.modelService.Update(+this.form.controls['id']?.value, this.form.value) :
       await this.modelService.Create(this.form.value);
 
     if (success) {
-      this.messageService.add({severity:'success', summary:'Success', detail: 'Modelo salvo com sucesso!'});
+      this.messageService.add({severity: 'success', summary: 'Success', detail: 'Modelo salvo com sucesso!'});
       await this.router.navigate(['/panel/model']);
     }
   }

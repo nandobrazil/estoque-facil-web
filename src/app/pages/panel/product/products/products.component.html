@@ -1,53 +1,72 @@
 <div class="app-products">
-  <p-dataView #dv [value]="products" [layout]="layout">
-    <ng-template pTemplate="header">
-      <div class="flex justify-content-end">
-        <p-dataViewLayoutOptions [layout]="layout" />
-      </div>
-    </ng-template>
-    <ng-template pTemplate="list" let-products>
-      <div class="grid grid-nogutter">
-        <div class="col-12" *ngFor="let i of counterArray(6); let first = first" class="col-12">
-          <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4" [ngClass]="{ 'border-top-1 surface-border': !first }">
-            <p-skeleton styleClass="w-9 sm:w-16rem xl:w-10rem h-6rem block xl:block mx-auto border-round" />
-            <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-              <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                <p-skeleton styleClass="w-8rem border-round h-2rem" />
-                <p-skeleton styleClass="w-6rem border-round h-1rem" />
-                <div class="flex align-items-center gap-3">
-                  <p-skeleton styleClass="w-6rem border-round h-1rem" />
-                  <p-skeleton styleClass="w-3rem border-round h-1rem" />
-                </div>
-              </div>
-              <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                <p-skeleton styleClass="w-4rem border-round h-2rem" />
-                <p-skeleton shape="circle" styleClass="w-3rem h-3rem" />
-              </div>
-            </div>
-          </div>
+  <div class="card">
+    <p-table [value]="products" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+             responsiveLayout="scroll"
+             currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} produtos"
+             [rowsPerPageOptions]="[10,25,50]"
+             [totalRecords]="pagination.totalRecords"
+             (onLazyLoad)="Get($event)"
+             [lazy]="true"
+             [globalFilterFields]="['name','username', 'role']">
+      <ng-template pTemplate="caption">
+        <div class="flex flex-wrap gap-2 align-items-center justify-content-between">
+                <span class="p-input-icon-left w-full sm:w-20rem flex-order-1 sm:flex-order-0">
+                    <i class="pi pi-search"></i>
+                  <!--                   (input)="onGlobalFilter(dt, $event)"-->
+                    <input pInputText type="text" placeholder="Pesquisar produto"
+                           class="w-full"/>
+                </span>
+          <button routerLink="/panel/product/new" pButton
+                  class="p-button-outlined w-full sm:w-auto flex-order-0 sm:flex-order-1" icon="pi pi-plus"
+                  label="Novo Produto"></button>
         </div>
-      </div>
-    </ng-template>
-    <ng-template let-product pTemplate="grid" let-products>
-      <div class="grid grid-nogutter">
-        <div class="col-12 sm:col-6 md:col-4 xl:col-6 p-2" *ngFor="let i of counterArray(6)">
-          <div class="p-4 border-1 surface-border surface-card border-round">
-            <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-              <p-skeleton styleClass="w-6rem border-round h-2rem" />
-              <p-skeleton styleClass="w-3rem border-round h-1rem" />
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+
+          <th class="white-space-nowrap">Imagem</th>
+
+          <th pSortableColumn="name" class="white-space-nowrap">Nome
+            <p-sortIcon field="name"></p-sortIcon>
+          </th>
+
+          <th pSortableColumn="model.name" class="white-space-nowrap">Modelo
+            <p-sortIcon field="model.name"></p-sortIcon>
+          </th>
+
+          <th pSortableColumn="costPrice" class="white-space-nowrap">Preço de Custo
+            <p-sortIcon field="costPrice"></p-sortIcon>
+          </th>
+
+          <th pSortableColumn="salePrice" class="white-space-nowrap">Preço de Venda
+            <p-sortIcon field="salePrice"></p-sortIcon>
+          </th>
+
+          <th pSortableColumn="createdAt" class="white-space-nowrap">Criado em
+            <p-sortIcon field="createdAt"></p-sortIcon>
+          </th>
+
+          <th style="width:10rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr>
+          <td></td>
+          <td>{{ data.name }}</td>
+          <td>{{ data?.model?.name }}</td>
+          <td>{{ data?.costPrice | currency: 'BRL' }}</td>
+          <td>{{ data?.salePrice | currency: 'BRL' }}</td>
+          <td>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>
+            <div class="flex justify-content-center gap-1">
+              <button pButton icon="pi pi-pencil" [routerLink]="['/panel/product/', data.id]"
+                      class="p-button-rounded" size="small"></button>
+              <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" size="small"
+                      (click)="delete(data.id)"></button>
             </div>
-            <div class="flex flex-column align-items-center gap-3 py-5">
-              <p-skeleton styleClass="w-9 border-round h-10rem" />
-              <p-skeleton styleClass="w-8rem border-round h-2rem" />
-              <p-skeleton styleClass="w-6rem border-round h-1rem" />
-            </div>
-            <div class="flex align-items-center justify-content-between">
-              <p-skeleton styleClass="w-4rem border-round h-2rem" />
-              <p-skeleton shape="circle" styleClass="w-3rem h-3rem" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-template>
-  </p-dataView>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>
