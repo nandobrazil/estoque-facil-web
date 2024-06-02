@@ -410,6 +410,9 @@
 
 @media (max-width: 978px) {
   ::ng-deep .app-panel {
+    .layout-content {
+      padding: 0 !important;
+    }
     nav {
       left: -100%;
       z-index: 9;
