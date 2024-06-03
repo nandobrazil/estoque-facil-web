@@ -53,7 +53,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "manifest.json"
+              "src/manifest.json"
             ],
             "styles": [
               "src/styles.scss"
