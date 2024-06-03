@@ -1,4 +1,4 @@
-import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule, isDevMode} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {PanelModule} from "./pages/panel/panel.module";
 import {LoadingComponent} from "./layout/loading/loading.component";
 import {ToastModule} from "primeng/toast";
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 registerLocaleData(localePt);
 
@@ -30,7 +31,13 @@ registerLocaleData(localePt);
     AppRoutingModule,
     ConfirmDialogModule,
     PanelModule,
-    ToastModule
+    ToastModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
