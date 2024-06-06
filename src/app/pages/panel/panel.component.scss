@@ -431,16 +431,29 @@
       max-width: calc(100vw - 1rem);
     }
 
+    .tooltip-element a span {
+      font-size: 1.3rem;
+    }
+    .tooltip-element a .icon {
+      font-size: 2rem;
+    }
     footer {
       background-color: transparent;
       width: 7rem;
       height: 3rem;
       position: fixed;
-      bottom: 1rem;
-      right: 1rem;
+      bottom: 3.5rem;
+      right: 2rem;
       display: flex;
       justify-content: flex-end;
       z-index: 10;
+      button {
+        background-color: var(--main-color);
+        padding: 2.2rem;
+        span {
+          font-size: 1.7rem;
+        }
+      }
     }
 
     &.menu-opened {
@@ -457,6 +470,11 @@
       }
       .nav-section {
         display: none;
+      }
+
+      footer button {
+        background-color: #FFF !important;
+        color: var(--main-color) !important;
       }
     }
   }

@@ -1,6 +1,7 @@
 <div class="app-users">
   <div class="card">
-    <p-table #dt [value]="users" [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+    <p-table #dt [value]="users" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+             responsiveLayout="stack"
              currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuários"
              [rowsPerPageOptions]="[10,25,50]"
              [lazy]="true"
@@ -38,14 +39,17 @@
       </ng-template>
       <ng-template pTemplate="body" let-user>
         <tr>
-          <td>{{ user.name }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
-          <td>{{ roleEnum[user.role] }}</td>
+          <td><span class="p-column-title font-bold">Nome</span>{{ user.name }}</td>
+          <td><span class="p-column-title font-bold">Criado por</span>{{ user.username }}</td>
+          <td><span class="p-column-title font-bold">Criado em</span>{{ user.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+          <td><span class="p-column-title font-bold">Perfil</span>{{ roleEnum[user.role] }}</td>
           <td>
-            <div class="flex justify-content-center gap-1">
-              <button pButton icon="pi pi-pencil" class="p-button-rounded" size="small" (click)="navigateToEditUser(user.id)"></button>
-              <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" size="small" (click)="delete(user.id)"></button>
+            <div class="w-full flex justify-content-center gap-1">
+              <button pButton icon="pi pi-pencil" class="p-button-rounded" size="small"
+                      (click)="navigateToEditUser(user.id)"></button>
+              <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" size="small"
+                      (click)="delete(user.id)"></button>
             </div>
           </td>
         </tr>

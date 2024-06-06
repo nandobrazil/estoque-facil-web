@@ -1,7 +1,7 @@
 <div class="app-brands">
   <div class="card">
     <p-table [value]="brands" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-             responsiveLayout="scroll"
+             responsiveLayout="stack"
              currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} categorias"
              [rowsPerPageOptions]="[10,25,50]"
              [totalRecords]="pagination.totalRecords"
@@ -48,14 +48,14 @@
       </ng-template>
       <ng-template pTemplate="body" let-data>
         <tr>
-          <td>{{ data.name }}</td>
-          <td>{{ data.description }}</td>
-          <td>{{ data?.category?.name }}</td>
-          <td>{{ data.createdBy }}</td>
-          <td>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
-          <td>{{ data.modifiedBy }}</td>
+          <td><span class="p-column-title font-bold">Nome</span>{{ data.name }}</td>
+          <td><span class="p-column-title font-bold">Descrição</span>{{ data.description }}</td>
+          <td><span class="p-column-title font-bold">Categoria</span>{{ data?.category?.name }}</td>
+          <td><span class="p-column-title font-bold">Criado por</span>{{ data.createdBy }}</td>
+          <td><span class="p-column-title font-bold">Criado em</span>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td><span class="p-column-title font-bold">Atualizado por</span>{{ data.modifiedBy }}</td>
           <td>
-            <div class="flex justify-content-center gap-1">
+            <div class="w-full flex justify-content-center gap-1">
               <button pButton icon="pi pi-pencil" [routerLink]="['/panel/brand/', data.id]"
                       class="p-button-rounded" size="small"></button>
               <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" size="small"

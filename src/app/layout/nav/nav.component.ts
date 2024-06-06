@@ -158,6 +158,7 @@ export class NavComponent implements OnInit {
   }
 
   showToolTip(tooltipIndex: number, length: number) {
+    if (window.innerWidth < 978) return;
     this.tooltipIndex = tooltipIndex;
     this.topTooltip = `${(100 / (length * 2)) * (tooltipIndex * 2 + 1)}%`;
   }

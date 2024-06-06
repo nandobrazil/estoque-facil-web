@@ -1,12 +1,11 @@
 <div class="app-dashboard">
-  <app-maintenance *ngIf="isProd"></app-maintenance>
-  <div class="grid" *ngIf="!isProd">
+  <div class="grid">
     <div class="col-12 md:col-6 xl:col-3">
       <div class="card h-full">
-        <span class="font-semibold text-lg">Sales</span>
+        <span class="font-semibold text-lg">Vendas Mensais</span>
         <div class="flex justify-content-between align-items-start mt-3">
           <div class="w-6">
-            <span class="text-4xl font-bold text-900">120</span>
+            <span class="text-4xl font-bold text-900">180</span>
             <div class="text-green-500">
               <span class="font-medium">+12%</span>
               <i class="pi pi-arrow-up text-xs ml-2"></i>
@@ -22,10 +21,10 @@
     </div>
     <div class="col-12 md:col-6 xl:col-3">
       <div class="card h-full">
-        <span class="font-semibold text-lg">Revenue</span>
+        <span class="font-semibold text-lg">Valor em Estoque</span>
         <div class="flex justify-content-between align-items-start mt-3">
           <div class="w-6">
-            <span class="text-4xl font-bold text-900">$4500</span>
+            <span class="text-4xl font-bold text-900">R$ 250.000</span>
             <div class="text-green-500">
               <span class="font-medium">+20%</span>
               <i class="pi pi-arrow-up text-xs ml-2"></i>
@@ -41,10 +40,10 @@
     </div>
     <div class="col-12 md:col-6 xl:col-3">
       <div class="card h-full">
-        <span class="font-semibold text-lg">Visitors</span>
+        <span class="font-semibold text-lg">Produtos</span>
         <div class="flex justify-content-between align-items-start mt-3">
           <div class="w-6">
-            <span class="text-4xl font-bold text-900">360</span>
+            <span class="text-4xl font-bold text-900">134</span>
             <div class="text-pink-500">
               <span class="font-medium">+24%</span>
               <i class="pi pi-arrow-down text-xs ml-2"></i>
@@ -60,10 +59,10 @@
     </div>
     <div class="col-12 md:col-6 xl:col-3">
       <div class="card h-full">
-        <span class="font-semibold text-lg">Stock</span>
+        <span class="font-semibold text-lg">Lucro médio</span>
         <div class="flex justify-content-between align-items-start mt-3">
           <div class="w-6">
-            <span class="text-4xl font-bold text-900">164</span>
+            <span class="text-4xl font-bold text-900">R$ 43.000</span>
             <div class="text-green-500">
               <span class="font-medium">+30%</span>
               <i class="pi pi-arrow-up text-xs ml-2"></i>
@@ -79,7 +78,7 @@
     <div class="col-12 xl:col-9">
       <div class="card h-full">
         <div class="flex align-items-start justify-content-between mb-6">
-          <span class="text-900 text-xl font-semibold">Revenue Overview</span>
+          <span class="text-900 text-xl font-semibold">Receita</span>
           <p-dropdown [options]="weeks" [(ngModel)]="selectedWeek" styleClass="w-10rem" optionLabel="label" (onChange)="onWeekChange()"></p-dropdown>
         </div>
         <p-chart type="bar" [data]="barData" [options]="barOptions" height="300px"></p-chart>
@@ -87,7 +86,7 @@
     </div>
     <div class="col-12 xl:col-3">
       <div class="card h-full">
-        <div class="text-900 text-xl font-semibold mb-6">Sales by Category</div>
+        <div class="text-900 text-xl font-semibold mb-6">Produtos por Categoria</div>
         <p-chart type="pie" [data]="pieData" [options]="pieOptions" height="300px"></p-chart>
       </div>
     </div>
@@ -95,7 +94,7 @@
     <div class="col-12 lg:col-8">
       <div class="card">
         <div class="flex flex-column md:flex-row md:align-items-start md:justify-content-between mb-3">
-          <div class="text-900 text-xl font-semibold mb-3 md:mb-0">Recent Sales</div>
+          <div class="text-900 text-xl font-semibold mb-3 md:mb-0">Vendas Recentes</div>
           <div class="inline-flex align-items-center">
                     <span class="p-input-icon-left flex-auto">
                         <i class="pi pi-search"></i>
@@ -107,13 +106,13 @@
         <p-table #dt [value]="products" [columns]="cols" [paginator]="true" [rows]="5" responsiveLayout="scroll" [globalFilterFields]="['name','category','inventoryStatus']">
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="name" style="min-width:12rem" class="white-space-nowrap">Name
+              <th pSortableColumn="name" style="min-width:12rem" class="white-space-nowrap">Nome
                 <p-sortIcon field="name"></p-sortIcon>
               </th>
-              <th pSortableColumn="category" style="min-width:10rem" class="white-space-nowrap">Category
+              <th pSortableColumn="category" style="min-width:10rem" class="white-space-nowrap">Categoria
                 <p-sortIcon field="category"></p-sortIcon>
               </th>
-              <th pSortableColumn="price" style="min-width:10rem" class="white-space-nowrap">Price
+              <th pSortableColumn="price" style="min-width:10rem" class="white-space-nowrap">Preço
                 <p-sortIcon field="price"></p-sortIcon>
               </th>
               <th pSortableColumn="inventoryStatus" style="min-width:10rem" class="white-space-nowrap">Status
@@ -130,7 +129,7 @@
                 {{product.category}}</td>
               <td>
                 <span class="p-column-title">Price</span>
-                {{product.price | currency:'USD'}}</td>
+                {{product.price | currency:'BRL'}}</td>
               <td>
                 <span class="p-column-title">Status</span>
                 <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
@@ -145,7 +144,7 @@
     </div>
     <div class="col-12 lg:col-4">
       <div class="card h-full">
-        <div class="text-900 text-xl font-semibold mb-3">Top Products</div>
+        <div class="text-900 text-xl font-semibold mb-3">Top Produtos</div>
         <ul class="list-none p-0 m-0">
           <li *ngFor="let product of products | slice:0:6" class="flex align-items-center justify-content-between p-3">
             <div class="inline-flex align-items-center">

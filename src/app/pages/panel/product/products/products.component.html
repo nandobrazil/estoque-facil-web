@@ -1,7 +1,7 @@
 <div class="app-products">
   <div class="card">
     <p-table [value]="products" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
-             responsiveLayout="scroll"
+             responsiveLayout="stack"
              currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} produtos"
              [rowsPerPageOptions]="[10,25,50]"
              [totalRecords]="pagination.totalRecords"
@@ -24,7 +24,7 @@
       <ng-template pTemplate="header">
         <tr>
 
-          <th class="white-space-nowrap">Imagem</th>
+          <th class="white-space-nowrap"></th>
 
           <th pSortableColumn="name" class="white-space-nowrap">Nome
             <p-sortIcon field="name"></p-sortIcon>
@@ -51,14 +51,19 @@
       </ng-template>
       <ng-template pTemplate="body" let-data>
         <tr>
-          <td></td>
-          <td>{{ data.name }}</td>
-          <td>{{ data?.model?.name }}</td>
-          <td>{{ data?.costPrice | currency: 'BRL' }}</td>
-          <td>{{ data?.salePrice | currency: 'BRL' }}</td>
-          <td>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>
-            <div class="flex justify-content-center gap-1">
+            <div class="w-full text-center">
+              <img src="assets/demo/images/product/gaming-set.jpg" width="100" class="shadow-2 flex-shrink-0"/>
+            </div>
+          </td>
+          <td><span class="p-column-title font-bold">Nome</span>{{ data.name }}</td>
+          <td><span class="p-column-title font-bold">Modelo</span>{{ data?.model?.name }}</td>
+          <td><span class="p-column-title font-bold">Preço de Custo</span>{{ data?.costPrice | currency: 'BRL' }}</td>
+          <td><span class="p-column-title font-bold">Preço de Venda</span>{{ data?.salePrice | currency: 'BRL' }}</td>
+          <td><span class="p-column-title font-bold">Criado em</span>{{ data.createdAt | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+          <td>
+            <div class="w-full flex justify-content-center gap-1">
               <button pButton icon="pi pi-pencil" [routerLink]="['/panel/product/', data.id]"
                       class="p-button-rounded" size="small"></button>
               <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" size="small"

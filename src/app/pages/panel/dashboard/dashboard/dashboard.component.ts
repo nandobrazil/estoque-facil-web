@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.weeks = [
       {
-        label: 'Last Week',
+        label: 'Últ. Semana',
         value: 0,
         data: [
           [65, 59, 80, 81, 56, 55, 40],
@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
         ],
       },
       {
-        label: 'This Week',
+        label: 'Esta Semana',
         value: 1,
         data: [
           [35, 19, 40, 61, 16, 55, 30],
@@ -62,9 +62,9 @@ export class DashboardComponent implements OnInit {
       .then((data) => (this.products = data));
 
     this.cols = [
-      { header: 'Name', field: 'name' },
-      { header: 'Category', field: 'category' },
-      { header: 'Price', field: 'price' },
+      { header: 'Nome', field: 'name' },
+      { header: 'Categoria', field: 'category' },
+      { header: 'Preço', field: 'price' },
       { header: 'Status', field: 'inventoryStatus' },
     ];
   }
@@ -79,10 +79,10 @@ export class DashboardComponent implements OnInit {
       documentStyle.getPropertyValue('--surface-border');
 
     this.barData = {
-      labels: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+      labels: ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM'],
       datasets: [
         {
-          label: 'Revenue',
+          label: 'Receita',
           backgroundColor:
             documentStyle.getPropertyValue('--primary-500'),
           barThickness: 12,
@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit {
           data: this.selectedWeek.data[0],
         },
         {
-          label: 'Profit',
+          label: 'Lucro',
           backgroundColor:
             documentStyle.getPropertyValue('--primary-200'),
           barThickness: 12,
@@ -101,7 +101,7 @@ export class DashboardComponent implements OnInit {
     };
 
     this.pieData = {
-      labels: ['Electronics', 'Fashion', 'Household'],
+      labels: ['Celulares', 'Consoles', 'Computadores'],
       datasets: [
         {
           data: [300, 50, 100],
